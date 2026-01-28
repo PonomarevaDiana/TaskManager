@@ -1,0 +1,15 @@
+package com.example.businessLogic.entity;
+
+
+public enum NotificationType {
+    NOTIFICATIONS_LIST,
+    NOTIFICATION_DELETED,
+    NOTIFICATION_READ,
+    CONTACT_REQUEST,
+    CONTACT_REQUEST_ACCEPTED,
+    PROJECT_INVITATION,
+    TASK_ASSIGMENT,
+    SYSTEM_ALERT,
+    INFO,
+    MESSAGE
+}

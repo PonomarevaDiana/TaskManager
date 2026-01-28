@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty name="APP_NAME" source="spring.application.name"/>
+
+    <!-- 1. ПРОСТОЙ CONSOLE аппендер -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"service":"${APP_NAME}"}</customFields>
+        </encoder>
+        <!-- ЭТО ОЧЕНЬ ВАЖНО: -->
+        <ssl>false</ssl>
+        <connectionTimeout>5000</connectionTimeout>
+    </appender>
+
+    <!-- 3. Логгер для сессий -->
+    <logger name="SESSION_LOGGER" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <!-- Пока закомментируйте LOGSTASH -->
+        <!-- <appender-ref ref="LOGSTASH"/> -->
+    </logger>
+
+    <!-- 4. КОРНЕВОЙ логгер ДОЛЖЕН иметь appender-ref -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <!-- Пока закомментируйте LOGSTASH -->
+        <!-- <appender-ref ref="LOGSTASH"/> -->
+    </root>
+</configuration>
